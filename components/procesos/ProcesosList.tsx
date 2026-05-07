@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, Eye, PenLine, MoreHorizontal, ArrowRight } from 'lucide-react'
+import { Search, Eye, PenLine, MoreHorizontal, ArrowRight, Building2 } from 'lucide-react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -43,18 +43,18 @@ export function ProcesosList() {
   return (
     <Card className="border-border/60 shadow-sm">
       {/* Filters */}
-      <CardHeader className="flex-row flex-wrap items-center gap-3 pb-3">
-        <div className="relative flex-1 min-w-48">
+      <CardHeader className="flex-row flex-wrap items-center gap-2 md:gap-3 pb-3 px-4 md:px-6">
+        <div className="relative flex-1 min-w-0">
           <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Buscar empresa o inspector..."
+            placeholder="Buscar..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-8 h-9 text-sm"
           />
         </div>
         <Select value={filterEstado} onValueChange={setFilterEstado}>
-          <SelectTrigger className="h-9 w-44 text-sm">
+          <SelectTrigger className="h-9 w-full sm:w-44 text-sm">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -66,27 +66,113 @@ export function ProcesosList() {
             <SelectItem value="no_cumple">No cumple</SelectItem>
           </SelectContent>
         </Select>
-        <span className="text-xs text-muted-foreground ml-auto">
+        <span className="text-[10px] md:text-xs text-muted-foreground w-full sm:w-auto sm:ml-auto">
           {filtered.length} resultado{filtered.length !== 1 ? 's' : ''}
         </span>
       </CardHeader>
 
       <CardContent className="p-0">
-        {/* Table header */}
-        <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_auto] items-center gap-4 border-b border-border/70 bg-muted/30 px-4 py-2.5">
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Empresa</span>
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Proceso</span>
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Estado</span>
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground hidden lg:block">Fecha</span>
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground hidden sm:block">Inspector</span>
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Acciones</span>
+        {/* Desktop Table View */}
+        <div className="hidden md:block">
+          {/* Table header */}
+          <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_auto] items-center gap-4 border-b border-border/70 bg-muted/30 px-4 md:px-6 py-2.5">
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Empresa</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Proceso</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Estado</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Fecha</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Inspector</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Acciones</span>
+          </div>
+
+          {/* Rows */}
+          <div className="divide-y divide-border/50">
+            {filtered.length === 0 ? (
+              <div className="py-12 text-center text-sm text-muted-foreground">
+                No se encontraron procesos con los filtros aplicados.
+              </div>
+            ) : (
+              filtered.map((proceso) => {
+                const nextStep = NEXT_STEP[proceso.estado]
+                return (
+                  <div
+                    key={proceso.id}
+                    className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_auto] items-center gap-4 px-4 md:px-6 py-3 transition-colors hover:bg-muted/30"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium text-foreground">
+                        {proceso.empresa.nombre}
+                      </p>
+                      <p className="truncate text-xs text-muted-foreground">
+                        {proceso.empresa.direccion}
+                      </p>
+                    </div>
+
+                    <span className="text-xs text-muted-foreground">
+                      {ETIQUETAS_REQUERIMIENTO[proceso.tipoRequerimiento]}
+                    </span>
+
+                    <StatusBadge estado={proceso.estado} />
+
+                    <span className="text-xs text-muted-foreground">
+                      {proceso.fechaActualizacion}
+                    </span>
+
+                    <span className="truncate text-xs text-muted-foreground">
+                      {proceso.inspector.nombre}
+                    </span>
+
+                    <div className="flex items-center gap-1 justify-end">
+                      <Link to={`/procesos/${proceso.id}`}>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Eye className="h-3.5 w-3.5" />
+                          <span className="sr-only">Ver</span>
+                        </Button>
+                      </Link>
+                      {nextStep && (
+                        <Link to={nextStep.href(proceso.id)}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-primary hover:text-primary"
+                          >
+                            <ArrowRight className="h-3.5 w-3.5" />
+                            <span className="sr-only">{nextStep.label}</span>
+                          </Button>
+                        </Link>
+                      )}
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-3.5 w-3.5" />
+                            <span className="sr-only">Opciones</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="text-sm">
+                          <DropdownMenuItem asChild>
+                            <Link to={`/procesos/${proceso.id}`} className="flex items-center gap-2">
+                              <Eye className="h-3.5 w-3.5" />
+                              Ver detalle
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="flex items-center gap-2">
+                            <PenLine className="h-3.5 w-3.5" />
+                            Editar
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </div>
+                )
+              })
+            )}
+          </div>
         </div>
 
-        {/* Rows */}
-        <div className="divide-y divide-border/50">
+        {/* Mobile Card View */}
+        <div className="md:hidden divide-y divide-border/50">
           {filtered.length === 0 ? (
             <div className="py-12 text-center text-sm text-muted-foreground">
-              No se encontraron procesos con los filtros aplicados.
+              No se encontraron procesos.
             </div>
           ) : (
             filtered.map((proceso) => {
@@ -94,64 +180,60 @@ export function ProcesosList() {
               return (
                 <div
                   key={proceso.id}
-                  className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_auto] items-center gap-4 px-4 py-3 transition-colors hover:bg-muted/30"
+                  className="p-4 space-y-3 active:bg-muted/30 transition-colors"
                 >
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-foreground">
-                      {proceso.empresa.nombre}
-                    </p>
-                    <p className="truncate text-xs text-muted-foreground">
-                      {proceso.empresa.direccion}
-                    </p>
+                  {/* Header row: Business name + status */}
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-start gap-2.5 min-w-0 flex-1">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                        <Building2 className="h-4 w-4 text-primary" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium text-foreground truncate">
+                          {proceso.empresa.nombre}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground truncate">
+                          {proceso.empresa.direccion}
+                        </p>
+                      </div>
+                    </div>
+                    <StatusBadge estado={proceso.estado} size="sm" />
                   </div>
 
-                  <span className="text-xs text-muted-foreground">
-                    {ETIQUETAS_REQUERIMIENTO[proceso.tipoRequerimiento]}
-                  </span>
+                  {/* Details row */}
+                  <div className="flex items-center justify-between text-[10px] text-muted-foreground">
+                    <div className="flex items-center gap-3">
+                      <span>{ETIQUETAS_REQUERIMIENTO[proceso.tipoRequerimiento]}</span>
+                      <span className="text-border">|</span>
+                      <span>{proceso.fechaActualizacion}</span>
+                    </div>
+                    <span className="truncate max-w-24">{proceso.inspector.nombre}</span>
+                  </div>
 
-                  <StatusBadge estado={proceso.estado} />
-
-                  <span className="hidden text-xs text-muted-foreground lg:block">
-                    {proceso.fechaActualizacion}
-                  </span>
-
-                  <span className="hidden truncate text-xs text-muted-foreground sm:block">
-                    {proceso.inspector.nombre}
-                  </span>
-
-                  <div className="flex items-center gap-1 justify-end">
-                    <Link to={`/procesos/${proceso.id}`}>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <Eye className="h-3.5 w-3.5" />
-                        <span className="sr-only">Ver</span>
+                  {/* Actions row */}
+                  <div className="flex items-center gap-2 pt-1">
+                    <Link to={`/procesos/${proceso.id}`} className="flex-1">
+                      <Button variant="outline" size="sm" className="w-full h-8 text-xs gap-1.5">
+                        <Eye className="h-3 w-3" />
+                        Ver detalle
                       </Button>
                     </Link>
                     {nextStep && (
-                      <Link to={nextStep.href(proceso.id)}>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-primary hover:text-primary"
-                        >
-                          <ArrowRight className="h-3.5 w-3.5" />
-                          <span className="sr-only">{nextStep.label}</span>
+                      <Link to={nextStep.href(proceso.id)} className="flex-1">
+                        <Button size="sm" className="w-full h-8 text-xs gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90">
+                          <ArrowRight className="h-3 w-3" />
+                          {nextStep.label.replace('Ir a ', '')}
                         </Button>
                       </Link>
                     )}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <MoreHorizontal className="h-3.5 w-3.5" />
+                        <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
+                          <MoreHorizontal className="h-4 w-4" />
                           <span className="sr-only">Opciones</span>
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="text-sm">
-                        <DropdownMenuItem asChild>
-                          <Link to={`/procesos/${proceso.id}`} className="flex items-center gap-2">
-                            <Eye className="h-3.5 w-3.5" />
-                            Ver detalle
-                          </Link>
-                        </DropdownMenuItem>
                         <DropdownMenuItem className="flex items-center gap-2">
                           <PenLine className="h-3.5 w-3.5" />
                           Editar

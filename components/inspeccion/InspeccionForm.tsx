@@ -15,7 +15,6 @@ import {
   PenLine,
   CheckCircle2,
   XCircle,
-  MinusCircle,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -106,14 +105,14 @@ function TriStateButton({
   onChange: (v: ItemValue) => void
 }) {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-0.5 md:gap-1">
       {(['si', 'no', 'na'] as ItemValue[]).map((v) => (
         <button
           key={v}
           type="button"
           onClick={() => onChange(v)}
           className={cn(
-            'flex h-7 w-10 items-center justify-center rounded border text-[11px] font-medium transition-all duration-150',
+            'flex h-6 w-8 md:h-7 md:w-10 items-center justify-center rounded border text-[10px] md:text-[11px] font-medium transition-all duration-150',
             value === v
               ? v === 'si'
                 ? 'bg-green-500 border-green-500 text-white'
@@ -183,99 +182,98 @@ export function InspeccionForm({ procesoId }: { procesoId?: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 max-w-3xl mx-auto">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-5 max-w-3xl mx-auto">
       {/* Main card */}
       <Card className="border-border/60 shadow-sm">
-        <CardHeader className="flex-row items-center justify-between pb-0">
+        <CardHeader className="flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-0 px-4 md:px-6">
           <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-violet-500 text-white text-xs font-bold">
+            <div className="flex h-6 w-6 md:h-7 md:w-7 items-center justify-center rounded-full bg-violet-500 text-white text-[10px] md:text-xs font-bold">
               2
             </div>
-            <CardTitle className="text-base font-semibold">
+            <CardTitle className="text-sm md:text-base font-semibold">
               Acta Circunstanciada de Inspección
             </CardTitle>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="gap-1.5 text-xs">
-              <Save className="h-3.5 w-3.5" />
-              Guardar borrador
+          <div className="flex gap-2 w-full sm:w-auto">
+            <Button variant="outline" size="sm" className="gap-1.5 text-[10px] md:text-xs flex-1 sm:flex-none h-8">
+              <Save className="h-3 w-3 md:h-3.5 md:w-3.5" />
+              <span className="hidden sm:inline">Guardar</span>
             </Button>
-            <Button variant="outline" size="sm" className="gap-1.5 text-xs">
-              <FileText className="h-3.5 w-3.5" />
-              Generar PDF
+            <Button variant="outline" size="sm" className="gap-1.5 text-[10px] md:text-xs flex-1 sm:flex-none h-8">
+              <FileText className="h-3 w-3 md:h-3.5 md:w-3.5" />
+              PDF
             </Button>
           </div>
         </CardHeader>
 
-        <CardContent className="pt-5 space-y-6">
+        <CardContent className="pt-4 md:pt-5 space-y-4 md:space-y-6 px-4 md:px-6">
           {/* I. Datos generales */}
           <div>
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            <h3 className="mb-2 md:mb-3 text-[10px] md:text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               I. Datos generales
             </h3>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="space-y-1.5">
-                <Label className="text-sm">
+            <div className="grid gap-3 md:gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="space-y-1 md:space-y-1.5">
+                <Label className="text-xs md:text-sm">
                   Fecha <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   type="date"
                   {...register('fecha')}
-                  className={errors.fecha ? 'border-destructive' : ''}
+                  className={`h-9 md:h-10 text-xs md:text-sm ${errors.fecha ? 'border-destructive' : ''}`}
                 />
-                {errors.fecha && <p className="text-xs text-destructive">{errors.fecha.message}</p>}
               </div>
 
-              <div className="space-y-1.5">
-                <Label className="text-sm">
+              <div className="space-y-1 md:space-y-1.5">
+                <Label className="text-xs md:text-sm">
                   Hora inicio <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   type="time"
                   {...register('horaInicio')}
-                  className={errors.horaInicio ? 'border-destructive' : ''}
+                  className={`h-9 md:h-10 text-xs md:text-sm ${errors.horaInicio ? 'border-destructive' : ''}`}
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <Label className="text-sm">
+              <div className="space-y-1 md:space-y-1.5">
+                <Label className="text-xs md:text-sm">
                   Hora fin <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   type="time"
                   {...register('horaFin')}
-                  className={errors.horaFin ? 'border-destructive' : ''}
+                  className={`h-9 md:h-10 text-xs md:text-sm ${errors.horaFin ? 'border-destructive' : ''}`}
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <Label className="text-sm">
-                  No. de expediente <span className="text-destructive">*</span>
+              <div className="space-y-1 md:space-y-1.5">
+                <Label className="text-xs md:text-sm">
+                  Expediente <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   {...register('expediente')}
                   placeholder="EXP-2026-XXX"
-                  className={errors.expediente ? 'border-destructive' : ''}
+                  className={`h-9 md:h-10 text-xs md:text-sm ${errors.expediente ? 'border-destructive' : ''}`}
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <Label className="text-sm">
+              <div className="space-y-1 md:space-y-1.5">
+                <Label className="text-xs md:text-sm">
                   Folio <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   {...register('folio')}
                   placeholder="XXX"
-                  className={errors.folio ? 'border-destructive' : ''}
+                  className={`h-9 md:h-10 text-xs md:text-sm ${errors.folio ? 'border-destructive' : ''}`}
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <Label className="text-sm">
+              <div className="space-y-1 md:space-y-1.5">
+                <Label className="text-xs md:text-sm">
                   Inspector <span className="text-destructive">*</span>
                 </Label>
                 <Select onValueChange={(v) => setValue('inspectorId', v)}>
-                  <SelectTrigger className={errors.inspectorId ? 'border-destructive' : ''}>
+                  <SelectTrigger className={`h-9 md:h-10 text-xs md:text-sm ${errors.inspectorId ? 'border-destructive' : ''}`}>
                     <SelectValue placeholder="Seleccionar..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -288,26 +286,24 @@ export function InspeccionForm({ procesoId }: { procesoId?: string }) {
                 </Select>
               </div>
 
-              <div className="space-y-1.5">
-                <Label className="text-sm">Acompañante / Testigo</Label>
+              <div className="space-y-1 md:space-y-1.5 col-span-2 sm:col-span-1">
+                <Label className="text-xs md:text-sm">Testigo</Label>
                 <Input
                   {...register('acompanante')}
                   placeholder="Nombre del testigo"
+                  className="h-9 md:h-10 text-xs md:text-sm"
                 />
               </div>
 
-              <div className="space-y-1.5 sm:col-span-2">
-                <Label className="text-sm">
-                  Representante de la empresa <span className="text-destructive">*</span>
+              <div className="space-y-1 md:space-y-1.5 col-span-2">
+                <Label className="text-xs md:text-sm">
+                  Representante empresa <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   {...register('representanteEmpresa')}
                   placeholder="Nombre del representante"
-                  className={errors.representanteEmpresa ? 'border-destructive' : ''}
+                  className={`h-9 md:h-10 text-xs md:text-sm ${errors.representanteEmpresa ? 'border-destructive' : ''}`}
                 />
-                {errors.representanteEmpresa && (
-                  <p className="text-xs text-destructive">{errors.representanteEmpresa.message}</p>
-                )}
               </div>
             </div>
           </div>
@@ -320,17 +316,17 @@ export function InspeccionForm({ procesoId }: { procesoId?: string }) {
                 <button
                   type="button"
                   onClick={() => toggleSeccion(seccion.id)}
-                  className="flex w-full items-center justify-between bg-muted/40 px-4 py-3 hover:bg-muted/60 transition-colors"
+                  className="flex w-full items-center justify-between bg-muted/40 px-3 md:px-4 py-2.5 md:py-3 hover:bg-muted/60 transition-colors"
                 >
-                  <span className="text-sm font-semibold text-foreground">{seccion.titulo}</span>
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-2 text-xs">
-                      <span className="flex items-center gap-1 text-green-600">
-                        <CheckCircle2 className="h-3.5 w-3.5" />
+                  <span className="text-xs md:text-sm font-semibold text-foreground">{seccion.titulo}</span>
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="flex items-center gap-1.5 md:gap-2 text-[10px] md:text-xs">
+                      <span className="flex items-center gap-0.5 md:gap-1 text-green-600">
+                        <CheckCircle2 className="h-3 w-3 md:h-3.5 md:w-3.5" />
                         {si}
                       </span>
-                      <span className="flex items-center gap-1 text-red-500">
-                        <XCircle className="h-3.5 w-3.5" />
+                      <span className="flex items-center gap-0.5 md:gap-1 text-red-500">
+                        <XCircle className="h-3 w-3 md:h-3.5 md:w-3.5" />
                         {no}
                       </span>
                       <span className="text-muted-foreground">/ {total}</span>
@@ -348,9 +344,9 @@ export function InspeccionForm({ procesoId }: { procesoId?: string }) {
                     {seccion.items.map((item) => (
                       <div
                         key={item.id}
-                        className="flex items-center justify-between gap-4 px-4 py-3"
+                        className="flex items-center justify-between gap-2 md:gap-4 px-3 md:px-4 py-2.5 md:py-3"
                       >
-                        <span className="text-sm text-foreground leading-relaxed flex-1">
+                        <span className="text-xs md:text-sm text-foreground leading-relaxed flex-1">
                           {item.label}
                         </span>
                         <TriStateButton
@@ -362,9 +358,9 @@ export function InspeccionForm({ procesoId }: { procesoId?: string }) {
 
                     {/* Grado de riesgo — only for PC section */}
                     {seccion.id === 'pc' && (
-                      <div className="flex items-center gap-4 px-4 py-3 bg-muted/20">
-                        <span className="text-sm font-medium text-foreground">Grado de Riesgo:</span>
-                        <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 md:gap-4 px-3 md:px-4 py-2.5 md:py-3 bg-muted/20">
+                        <span className="text-xs md:text-sm font-medium text-foreground">Grado de Riesgo:</span>
+                        <div className="flex gap-1.5 md:gap-2">
                           {(Object.entries(GRADO_CONFIG) as [GradoRiesgo, typeof GRADO_CONFIG['bajo']][]).map(
                             ([key, cfg]) => (
                               <button
@@ -375,7 +371,7 @@ export function InspeccionForm({ procesoId }: { procesoId?: string }) {
                                   setValue('gradoRiesgo', key)
                                 }}
                                 className={cn(
-                                  'rounded-full border px-4 py-1 text-xs font-semibold transition-all duration-150',
+                                  'rounded-full border px-3 md:px-4 py-0.5 md:py-1 text-[10px] md:text-xs font-semibold transition-all duration-150',
                                   gradoRiesgo === key ? cfg.active : cfg.color + ' bg-background hover:bg-muted/60'
                                 )}
                               >
@@ -388,9 +384,9 @@ export function InspeccionForm({ procesoId }: { procesoId?: string }) {
                     )}
 
                     {/* Observaciones de sección */}
-                    <div className="px-4 py-3">
-                      <Label className="text-xs text-muted-foreground mb-1.5 block">
-                        Observaciones de esta sección
+                    <div className="px-3 md:px-4 py-2.5 md:py-3">
+                      <Label className="text-[10px] md:text-xs text-muted-foreground mb-1 md:mb-1.5 block">
+                        Observaciones
                       </Label>
                       <Textarea
                         value={observacionesSecciones[seccion.id] ?? ''}
@@ -402,7 +398,7 @@ export function InspeccionForm({ procesoId }: { procesoId?: string }) {
                         }
                         rows={2}
                         placeholder="Observaciones específicas..."
-                        className="resize-none text-sm leading-relaxed"
+                        className="resize-none text-xs md:text-sm leading-relaxed"
                       />
                     </div>
                   </div>
@@ -412,109 +408,106 @@ export function InspeccionForm({ procesoId }: { procesoId?: string }) {
           })}
 
           {/* Observaciones generales */}
-          <div className="space-y-1.5">
-            <Label className="text-sm">
+          <div className="space-y-1 md:space-y-1.5">
+            <Label className="text-xs md:text-sm">
               Observaciones generales <span className="text-destructive">*</span>
             </Label>
             <Textarea
               {...register('observacionesGenerales')}
               rows={3}
               placeholder="Observaciones generales de la inspección..."
-              className={`resize-none text-sm leading-relaxed ${errors.observacionesGenerales ? 'border-destructive' : ''}`}
+              className={`resize-none text-xs md:text-sm leading-relaxed ${errors.observacionesGenerales ? 'border-destructive' : ''}`}
             />
-            {errors.observacionesGenerales && (
-              <p className="text-xs text-destructive">{errors.observacionesGenerales.message}</p>
-            )}
           </div>
 
           {/* Plazo para cumplir */}
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div className="space-y-1.5">
-              <Label className="text-sm">
-                Días para cumplir <span className="text-destructive">*</span>
+          <div className="grid gap-3 md:gap-4 grid-cols-3">
+            <div className="space-y-1 md:space-y-1.5">
+              <Label className="text-xs md:text-sm">
+                Días <span className="text-destructive">*</span>
               </Label>
               <Input
                 type="number"
                 min="1"
                 max="365"
                 {...register('diasParaCumplir')}
-                className={errors.diasParaCumplir ? 'border-destructive' : ''}
+                className={`h-9 md:h-10 text-xs md:text-sm ${errors.diasParaCumplir ? 'border-destructive' : ''}`}
               />
             </div>
-            <div className="space-y-1.5">
-              <Label className="text-sm">
-                Fecha de verificación <span className="text-destructive">*</span>
+            <div className="space-y-1 md:space-y-1.5">
+              <Label className="text-xs md:text-sm">
+                Fecha verif. <span className="text-destructive">*</span>
               </Label>
               <Input
                 type="date"
                 {...register('fechaVerificacion')}
-                className={errors.fechaVerificacion ? 'border-destructive' : ''}
+                className={`h-9 md:h-10 text-xs md:text-sm ${errors.fechaVerificacion ? 'border-destructive' : ''}`}
               />
             </div>
-            <div className="space-y-1.5">
-              <Label className="text-sm">
+            <div className="space-y-1 md:space-y-1.5">
+              <Label className="text-xs md:text-sm">
                 Hora <span className="text-destructive">*</span>
               </Label>
               <Input
                 type="time"
                 {...register('horaVerificacion')}
-                className={errors.horaVerificacion ? 'border-destructive' : ''}
+                className={`h-9 md:h-10 text-xs md:text-sm ${errors.horaVerificacion ? 'border-destructive' : ''}`}
               />
             </div>
           </div>
 
           {/* Evidencias */}
           <div>
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              Evidencias fotográficas
+            <h3 className="mb-2 md:mb-3 text-[10px] md:text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Evidencias
             </h3>
-            <div className="flex gap-2">
-              <Button type="button" variant="outline" size="sm" className="gap-2 text-xs">
-                <Paperclip className="h-3.5 w-3.5" />
-                Agregar evidencia
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" variant="outline" size="sm" className="gap-1.5 text-[10px] md:text-xs h-8">
+                <Paperclip className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                Agregar
               </Button>
-              <Button type="button" variant="outline" size="sm" className="gap-2 text-xs">
-                <Camera className="h-3.5 w-3.5" />
-                Tomar foto
+              <Button type="button" variant="outline" size="sm" className="gap-1.5 text-[10px] md:text-xs h-8">
+                <Camera className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                Foto
               </Button>
-              <Button type="button" variant="outline" size="sm" className="gap-2 text-xs">
-                <PenLine className="h-3.5 w-3.5" />
+              <Button type="button" variant="outline" size="sm" className="gap-1.5 text-[10px] md:text-xs h-8">
+                <PenLine className="h-3 w-3 md:h-3.5 md:w-3.5" />
                 Firmas
               </Button>
             </div>
           </div>
 
           {/* Firmas section */}
-          <div className="rounded-lg border border-border/70 bg-muted/20 p-4">
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <div className="rounded-lg border border-border/70 bg-muted/20 p-3 md:p-4">
+            <h3 className="mb-2 md:mb-3 text-[10px] md:text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               Firmas
             </h3>
-            <div className="grid gap-6 sm:grid-cols-3">
-              {['Por la empresa', 'Inspector responsable', 'Testigo'].map((label) => (
+            <div className="grid gap-4 md:gap-6 grid-cols-3">
+              {['Por la empresa', 'Inspector', 'Testigo'].map((label) => (
                 <div key={label} className="text-center">
-                  <div className="mx-auto mb-2 h-16 w-full rounded border-b-2 border-dashed border-border bg-background" />
-                  <p className="text-xs font-medium text-foreground">{label}</p>
-                  <p className="text-[11px] text-muted-foreground">Nombre y firma</p>
+                  <div className="mx-auto mb-1.5 md:mb-2 h-12 md:h-16 w-full rounded border-b-2 border-dashed border-border bg-background" />
+                  <p className="text-[9px] md:text-xs font-medium text-foreground truncate">{label}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 border-t border-border/60 pt-4">
+          <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-2 md:gap-3 border-t border-border/60 pt-4">
             <Button
               type="button"
               variant="outline"
               onClick={() => navigate('/procesos')}
+              className="w-full sm:w-auto text-xs md:text-sm"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="gap-2 bg-violet-600 text-white hover:bg-violet-700"
+              className="gap-2 bg-violet-600 text-white hover:bg-violet-700 w-full sm:w-auto text-xs md:text-sm"
             >
-              <CheckCircle2 className="h-4 w-4" />
+              <CheckCircle2 className="h-3.5 w-3.5 md:h-4 md:w-4" />
               {isSubmitting ? 'Guardando...' : 'Finalizar inspección'}
             </Button>
           </div>

@@ -30,14 +30,18 @@ const CONFIG: Record<
 interface StatusBadgeProps {
   estado: EstadoProceso
   className?: string
+  size?: 'sm' | 'default'
 }
 
-export function StatusBadge({ estado, className }: StatusBadgeProps) {
+export function StatusBadge({ estado, className, size = 'default' }: StatusBadgeProps) {
   const config = CONFIG[estado]
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium',
+        'inline-flex items-center rounded-full border font-medium whitespace-nowrap',
+        size === 'sm' 
+          ? 'px-1.5 md:px-2.5 py-0.5 text-[10px] md:text-xs'
+          : 'px-2.5 py-0.5 text-xs',
         config.className,
         className
       )}

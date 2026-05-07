@@ -29,20 +29,20 @@ const ACTIONS = [
 
 export function QuickActions() {
   return (
-    <Card className="border-border/60 shadow-sm">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-sm font-semibold text-foreground">Acciones rápidas</CardTitle>
+    <Card className="border-border/60 shadow-sm h-full">
+      <CardHeader className="pb-3 px-4 md:px-6">
+        <CardTitle className="text-xs md:text-sm font-semibold text-foreground">Acciones rápidas</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-wrap gap-2">
+      <CardContent className="px-4 md:px-6 flex flex-wrap gap-2">
         {ACTIONS.map((action) => (
-          <Link key={action.href} to={action.href}>
+          <Link key={action.href} to={action.href} className="flex-1 min-w-fit md:flex-none">
             <Button
               variant={action.variant}
               size="sm"
-              className={`gap-2 text-xs ${action.className}`}
+              className={`gap-1.5 md:gap-2 text-[10px] md:text-xs w-full md:w-auto ${action.className}`}
             >
-              <action.icon className="h-3.5 w-3.5" />
-              {action.label}
+              <action.icon className="h-3 w-3 md:h-3.5 md:w-3.5" />
+              <span className="truncate">{action.label}</span>
             </Button>
           </Link>
         ))}

@@ -56,31 +56,31 @@ const CARDS: StatCard[] = [
 
 export function StatsCards() {
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
       {CARDS.map((card, i) => (
         <Card
           key={i}
           className="overflow-hidden border-border/60 shadow-sm transition-shadow duration-200 hover:shadow-md"
         >
-          <CardContent className="p-5">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-xs font-medium text-muted-foreground leading-relaxed">
+          <CardContent className="p-3 md:p-5">
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] md:text-xs font-medium text-muted-foreground leading-relaxed truncate">
                   {card.label}
                 </p>
-                <p className={cn('mt-1 text-3xl font-bold tracking-tight', card.color)}>
+                <p className={cn('mt-0.5 md:mt-1 text-xl md:text-3xl font-bold tracking-tight', card.color)}>
                   {card.value}
                 </p>
-                <p className="mt-0.5 text-xs text-muted-foreground">{card.sublabel}</p>
+                <p className="mt-0.5 text-[10px] md:text-xs text-muted-foreground hidden sm:block">{card.sublabel}</p>
               </div>
-              <div className={cn('rounded-xl p-2.5', card.iconBg)}>
-                <card.icon className={cn('h-5 w-5', card.color)} />
+              <div className={cn('rounded-lg md:rounded-xl p-1.5 md:p-2.5 shrink-0', card.iconBg)}>
+                <card.icon className={cn('h-4 w-4 md:h-5 md:w-5', card.color)} />
               </div>
             </div>
             {card.trend && (
-              <div className="mt-3 flex items-center gap-1.5 border-t border-border/50 pt-3">
-                <TrendingUp className="h-3 w-3 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">{card.trend}</span>
+              <div className="mt-2 md:mt-3 flex items-center gap-1.5 border-t border-border/50 pt-2 md:pt-3">
+                <TrendingUp className="h-3 w-3 text-muted-foreground shrink-0" />
+                <span className="text-[10px] md:text-xs text-muted-foreground truncate">{card.trend}</span>
               </div>
             )}
           </CardContent>

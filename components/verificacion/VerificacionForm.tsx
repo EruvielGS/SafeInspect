@@ -75,48 +75,45 @@ export function VerificacionForm({ procesoId }: { procesoId?: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 max-w-3xl mx-auto">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-5 max-w-3xl mx-auto">
       <Card className="border-border/60 shadow-sm">
-        <CardHeader className="flex-row items-center justify-between pb-0">
+        <CardHeader className="flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-0 px-4 md:px-6">
           <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-green-500 text-white text-xs font-bold">
+            <div className="flex h-6 w-6 md:h-7 md:w-7 items-center justify-center rounded-full bg-green-500 text-white text-[10px] md:text-xs font-bold">
               3
             </div>
-            <CardTitle className="text-base font-semibold">Acta de Verificación</CardTitle>
+            <CardTitle className="text-sm md:text-base font-semibold">Acta de Verificación</CardTitle>
           </div>
-          <Button variant="outline" size="sm" className="gap-1.5 text-xs">
-            <FileText className="h-3.5 w-3.5" />
-            Generar PDF
+          <Button variant="outline" size="sm" className="gap-1.5 text-[10px] md:text-xs h-8">
+            <FileText className="h-3 w-3 md:h-3.5 md:w-3.5" />
+            <span className="hidden sm:inline">Generar</span> PDF
           </Button>
         </CardHeader>
 
-        <CardContent className="pt-5 space-y-6">
+        <CardContent className="pt-4 md:pt-5 space-y-4 md:space-y-6 px-4 md:px-6">
           {/* Datos generales */}
           <div>
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            <h3 className="mb-2 md:mb-3 text-[10px] md:text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               Datos generales
             </h3>
-            <div className="grid gap-4 sm:grid-cols-3">
-              <div className="space-y-1.5">
-                <Label className="text-sm">
-                  Fecha de verificación <span className="text-destructive">*</span>
+            <div className="grid gap-3 md:gap-4 grid-cols-1 sm:grid-cols-3">
+              <div className="space-y-1 md:space-y-1.5">
+                <Label className="text-xs md:text-sm">
+                  Fecha <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   type="date"
                   {...register('fechaVerificacion')}
-                  className={errors.fechaVerificacion ? 'border-destructive' : ''}
+                  className={`h-9 md:h-10 text-xs md:text-sm ${errors.fechaVerificacion ? 'border-destructive' : ''}`}
                 />
-                {errors.fechaVerificacion && (
-                  <p className="text-xs text-destructive">{errors.fechaVerificacion.message}</p>
-                )}
               </div>
 
-              <div className="space-y-1.5">
-                <Label className="text-sm">
+              <div className="space-y-1 md:space-y-1.5">
+                <Label className="text-xs md:text-sm">
                   Inspector <span className="text-destructive">*</span>
                 </Label>
                 <Select onValueChange={(v) => setValue('inspectorId', v)}>
-                  <SelectTrigger className={errors.inspectorId ? 'border-destructive' : ''}>
+                  <SelectTrigger className={`h-9 md:h-10 text-xs md:text-sm ${errors.inspectorId ? 'border-destructive' : ''}`}>
                     <SelectValue placeholder="Seleccionar..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -127,58 +124,49 @@ export function VerificacionForm({ procesoId }: { procesoId?: string }) {
                     ))}
                   </SelectContent>
                 </Select>
-                {errors.inspectorId && (
-                  <p className="text-xs text-destructive">{errors.inspectorId.message}</p>
-                )}
               </div>
 
-              <div className="space-y-1.5">
-                <Label className="text-sm">
-                  No. de expediente <span className="text-destructive">*</span>
+              <div className="space-y-1 md:space-y-1.5">
+                <Label className="text-xs md:text-sm">
+                  Expediente <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   {...register('expediente')}
                   placeholder="EXP-2026-XXX"
-                  className={errors.expediente ? 'border-destructive' : ''}
+                  className={`h-9 md:h-10 text-xs md:text-sm ${errors.expediente ? 'border-destructive' : ''}`}
                 />
-                {errors.expediente && (
-                  <p className="text-xs text-destructive">{errors.expediente.message}</p>
-                )}
               </div>
             </div>
           </div>
 
           {/* Observaciones generales */}
-          <div className="space-y-1.5">
-            <Label className="text-sm">
+          <div className="space-y-1 md:space-y-1.5">
+            <Label className="text-xs md:text-sm">
               Observaciones generales <span className="text-destructive">*</span>
             </Label>
             <Textarea
               {...register('observacionesGenerales')}
-              rows={4}
-              placeholder="Se realizó la verificación de la información proporcionada y de las condiciones encontradas durante la inspección..."
-              className={`resize-none text-sm leading-relaxed ${errors.observacionesGenerales ? 'border-destructive' : ''}`}
+              rows={3}
+              placeholder="Se realizó la verificación de la información proporcionada..."
+              className={`resize-none text-xs md:text-sm leading-relaxed ${errors.observacionesGenerales ? 'border-destructive' : ''}`}
             />
-            {errors.observacionesGenerales && (
-              <p className="text-xs text-destructive">{errors.observacionesGenerales.message}</p>
-            )}
           </div>
 
           {/* Resultado de verificación */}
           <div>
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              Resultado de verificación <span className="text-destructive">*</span>
+            <h3 className="mb-2 md:mb-3 text-[10px] md:text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Resultado <span className="text-destructive">*</span>
             </h3>
             {errors.resultado && (
-              <p className="mb-2 text-xs text-destructive">Selecciona un resultado</p>
+              <p className="mb-2 text-[10px] md:text-xs text-destructive">Selecciona un resultado</p>
             )}
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-2 md:gap-3 sm:grid-cols-2">
               {/* Cumple */}
               <button
                 type="button"
                 onClick={() => handleSetResultado('cumple')}
                 className={cn(
-                  'group relative flex flex-col items-start gap-2 rounded-xl border-2 p-4 text-left transition-all duration-200',
+                  'group relative flex flex-col items-start gap-1.5 md:gap-2 rounded-xl border-2 p-3 md:p-4 text-left transition-all duration-200',
                   resultado === 'cumple'
                     ? 'border-green-500 bg-green-50 shadow-sm'
                     : 'border-border bg-card hover:border-green-300 hover:bg-green-50/40'
@@ -187,25 +175,25 @@ export function VerificacionForm({ procesoId }: { procesoId?: string }) {
                 <div className="flex items-center gap-2">
                   <CheckCircle2
                     className={cn(
-                      'h-6 w-6 transition-colors',
+                      'h-5 w-5 md:h-6 md:w-6 transition-colors',
                       resultado === 'cumple' ? 'text-green-500' : 'text-muted-foreground group-hover:text-green-400'
                     )}
                   />
                   <span
                     className={cn(
-                      'text-sm font-semibold transition-colors',
+                      'text-xs md:text-sm font-semibold transition-colors',
                       resultado === 'cumple' ? 'text-green-700' : 'text-foreground'
                     )}
                   >
                     Cumple
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  La empresa cumple con los requerimientos establecidos.
+                <p className="text-[10px] md:text-xs text-muted-foreground leading-relaxed">
+                  La empresa cumple con los requerimientos.
                 </p>
                 {resultado === 'cumple' && (
-                  <div className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-white" />
+                  <div className="absolute right-2 md:right-3 top-2 md:top-3 flex h-4 w-4 md:h-5 md:w-5 items-center justify-center rounded-full bg-green-500">
+                    <CheckCircle2 className="h-2.5 w-2.5 md:h-3.5 md:w-3.5 text-white" />
                   </div>
                 )}
               </button>
@@ -215,7 +203,7 @@ export function VerificacionForm({ procesoId }: { procesoId?: string }) {
                 type="button"
                 onClick={() => handleSetResultado('no_cumple')}
                 className={cn(
-                  'group relative flex flex-col items-start gap-2 rounded-xl border-2 p-4 text-left transition-all duration-200',
+                  'group relative flex flex-col items-start gap-1.5 md:gap-2 rounded-xl border-2 p-3 md:p-4 text-left transition-all duration-200',
                   resultado === 'no_cumple'
                     ? 'border-red-500 bg-red-50 shadow-sm'
                     : 'border-border bg-card hover:border-red-300 hover:bg-red-50/40'
@@ -224,25 +212,25 @@ export function VerificacionForm({ procesoId }: { procesoId?: string }) {
                 <div className="flex items-center gap-2">
                   <XCircle
                     className={cn(
-                      'h-6 w-6 transition-colors',
+                      'h-5 w-5 md:h-6 md:w-6 transition-colors',
                       resultado === 'no_cumple' ? 'text-red-500' : 'text-muted-foreground group-hover:text-red-400'
                     )}
                   />
                   <span
                     className={cn(
-                      'text-sm font-semibold transition-colors',
+                      'text-xs md:text-sm font-semibold transition-colors',
                       resultado === 'no_cumple' ? 'text-red-700' : 'text-foreground'
                     )}
                   >
                     No cumple
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  La empresa no cumple con los requerimientos establecidos.
+                <p className="text-[10px] md:text-xs text-muted-foreground leading-relaxed">
+                  La empresa no cumple con los requerimientos.
                 </p>
                 {resultado === 'no_cumple' && (
-                  <div className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-red-500">
-                    <XCircle className="h-3.5 w-3.5 text-white" />
+                  <div className="absolute right-2 md:right-3 top-2 md:top-3 flex h-4 w-4 md:h-5 md:w-5 items-center justify-center rounded-full bg-red-500">
+                    <XCircle className="h-2.5 w-2.5 md:h-3.5 md:w-3.5 text-white" />
                   </div>
                 )}
               </button>
@@ -251,19 +239,19 @@ export function VerificacionForm({ procesoId }: { procesoId?: string }) {
 
           {/* Sanción (solo si no cumple) */}
           {resultado === 'no_cumple' && (
-            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 space-y-4">
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 md:p-4 space-y-3 md:space-y-4">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4 text-amber-600" />
-                <h3 className="text-sm font-semibold text-amber-800">
+                <AlertTriangle className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-600" />
+                <h3 className="text-xs md:text-sm font-semibold text-amber-800">
                   Sanción administrativa
                 </h3>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-1.5">
-                  <Label className="text-sm">Tipo de sanción</Label>
+              <div className="grid gap-3 md:gap-4 sm:grid-cols-2">
+                <div className="space-y-1 md:space-y-1.5">
+                  <Label className="text-xs md:text-sm">Tipo de sanción</Label>
                   <Select onValueChange={(v) => setValue('tipoSancion', v)}>
-                    <SelectTrigger className="bg-white">
-                      <SelectValue placeholder="Seleccionar sanción..." />
+                    <SelectTrigger className="bg-white h-9 md:h-10 text-xs md:text-sm">
+                      <SelectValue placeholder="Seleccionar..." />
                     </SelectTrigger>
                     <SelectContent>
                       {TIPOS_SANCION.map((s) => (
@@ -274,24 +262,24 @@ export function VerificacionForm({ procesoId }: { procesoId?: string }) {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-1.5">
-                  <Label className="text-sm">Fecha límite</Label>
+                <div className="space-y-1 md:space-y-1.5">
+                  <Label className="text-xs md:text-sm">Fecha límite</Label>
                   <Input
                     type="date"
                     {...register('fechaLimite')}
-                    className="bg-white"
+                    className="bg-white h-9 md:h-10 text-xs md:text-sm"
                   />
                 </div>
               </div>
-              <div className="space-y-1.5">
-                <Label className="text-sm flex items-center gap-1.5">
-                  <Flag className="h-3.5 w-3.5 text-amber-600" />
-                  Fecha próxima revisión (verificación previa a sanción)
+              <div className="space-y-1 md:space-y-1.5">
+                <Label className="text-xs md:text-sm flex items-center gap-1.5">
+                  <Flag className="h-3 w-3 md:h-3.5 md:w-3.5 text-amber-600" />
+                  Próxima revisión
                 </Label>
                 <Input
                   type="date"
                   {...register('fechaProximaRevision')}
-                  className="bg-white"
+                  className="bg-white h-9 md:h-10 text-xs md:text-sm"
                 />
               </div>
             </div>
@@ -299,62 +287,63 @@ export function VerificacionForm({ procesoId }: { procesoId?: string }) {
 
           {/* Próxima revisión (solo si cumple) */}
           {resultado === 'cumple' && (
-            <div className="rounded-lg border border-green-200 bg-green-50 p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <ShieldCheck className="h-4 w-4 text-green-600" />
-                <h3 className="text-sm font-semibold text-green-800">
+            <div className="rounded-lg border border-green-200 bg-green-50 p-3 md:p-4">
+              <div className="flex items-center gap-2 mb-2 md:mb-3">
+                <ShieldCheck className="h-3.5 w-3.5 md:h-4 md:w-4 text-green-600" />
+                <h3 className="text-xs md:text-sm font-semibold text-green-800">
                   Próxima revisión anual
                 </h3>
               </div>
-              <div className="space-y-1.5 max-w-xs">
-                <Label className="text-sm">Fecha próxima revisión</Label>
+              <div className="space-y-1 md:space-y-1.5 max-w-xs">
+                <Label className="text-xs md:text-sm">Fecha próxima revisión</Label>
                 <Input
                   type="date"
                   {...register('fechaProximaRevision')}
-                  className="bg-white"
+                  className="bg-white h-9 md:h-10 text-xs md:text-sm"
                 />
               </div>
             </div>
           )}
 
           {/* Firmas section */}
-          <div className="rounded-lg border border-border/70 bg-muted/20 p-4">
-            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <div className="rounded-lg border border-border/70 bg-muted/20 p-3 md:p-4">
+            <h3 className="mb-3 md:mb-4 text-[10px] md:text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               Firmas
             </h3>
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-4 md:gap-6 sm:grid-cols-2">
               <div className="text-center">
-                <div className="mx-auto mb-3 h-20 w-full rounded border-b-2 border-dashed border-border bg-background" />
-                <p className="text-xs font-medium text-foreground">
-                  Firma del representante de la empresa
+                <div className="mx-auto mb-2 md:mb-3 h-16 md:h-20 w-full rounded border-b-2 border-dashed border-border bg-background" />
+                <p className="text-[10px] md:text-xs font-medium text-foreground">
+                  Representante empresa
                 </p>
-                <p className="mt-0.5 text-[11px] text-muted-foreground">Nombre y firma / ID.INE #</p>
+                <p className="mt-0.5 text-[9px] md:text-[11px] text-muted-foreground">Nombre y firma</p>
               </div>
               <div className="text-center">
-                <div className="mx-auto mb-3 h-20 w-full rounded border-b-2 border-dashed border-border bg-background" />
-                <p className="text-xs font-medium text-foreground">
-                  Firma del inspector verificador responsable
+                <div className="mx-auto mb-2 md:mb-3 h-16 md:h-20 w-full rounded border-b-2 border-dashed border-border bg-background" />
+                <p className="text-[10px] md:text-xs font-medium text-foreground">
+                  Inspector verificador
                 </p>
-                <p className="mt-0.5 text-[11px] text-muted-foreground">Nombre y firma / ID.INE #</p>
+                <p className="mt-0.5 text-[9px] md:text-[11px] text-muted-foreground">Nombre y firma</p>
               </div>
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 border-t border-border/60 pt-4">
+          <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-2 md:gap-3 border-t border-border/60 pt-4">
             <Button
               type="button"
               variant="outline"
               onClick={() => navigate('/procesos')}
+              className="w-full sm:w-auto text-xs md:text-sm"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={isSubmitting || resultado === null}
-              className="gap-2 bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+              className="gap-2 bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 w-full sm:w-auto text-xs md:text-sm"
             >
-              <ShieldCheck className="h-4 w-4" />
+              <ShieldCheck className="h-3.5 w-3.5 md:h-4 md:w-4" />
               {isSubmitting ? 'Finalizando...' : 'Finalizar proceso'}
             </Button>
           </div>
