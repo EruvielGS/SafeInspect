@@ -1,0 +1,23 @@
+image: node:22
+
+stages:
+  - build
+
+build-prod:
+  stage: build
+  script:
+    - npm install -g firebase-tools
+    - npm install
+    - export $(cat .env | xargs)
+    - npm run build
+
+    # Usar la variable de GitLab directamente (tipo File recomendado)
+    - export GOOGLE_APPLICATION_CREDENTIALS="$FIREBASE_SERVICE_ACCOUNT"
+
+    # Deploy sin token
+    - firebase deploy --project safe-inspect
+  only:
+    refs:
+      - main
+      - master
+      - qa

@@ -1,0 +1,9 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { AppLayout } from '@/components/layout/AppLayout';
+import { Header } from '@/components/layout/Header';
+import { Card, CardContent } from '@/components/ui/card';
+import { Building2, MapPin, Phone, User } from 'lucide-react';
+import { EMPRESAS } from '@/lib/mock-data';
+export default function EmpresasPage() {
+    return (_jsxs(AppLayout, { children: [_jsx(Header, { title: "Empresas", subtitle: "Directorio de establecimientos registrados" }), _jsx("div", { className: "p-6", children: _jsx("div", { className: "grid gap-4 sm:grid-cols-2 lg:grid-cols-3", children: EMPRESAS.map((empresa) => (_jsx(Card, { className: "border-border/60 shadow-sm hover:shadow-md transition-shadow", children: _jsxs(CardContent, { className: "p-5 space-y-3", children: [_jsxs("div", { className: "flex items-start gap-2", children: [_jsx("div", { className: "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10", children: _jsx(Building2, { className: "h-4 w-4 text-primary" }) }), _jsxs("div", { className: "min-w-0", children: [_jsx("p", { className: "text-sm font-semibold text-foreground leading-tight", children: empresa.nombre }), _jsx("p", { className: "text-xs text-muted-foreground", children: empresa.giro })] })] }), _jsxs("div", { className: "space-y-1.5 text-xs text-muted-foreground", children: [_jsxs("div", { className: "flex items-start gap-1.5", children: [_jsx(MapPin, { className: "mt-0.5 h-3 w-3 shrink-0" }), _jsx("span", { className: "leading-relaxed", children: empresa.direccion })] }), _jsxs("div", { className: "flex items-center gap-1.5", children: [_jsx(User, { className: "h-3 w-3 shrink-0" }), _jsx("span", { children: empresa.representante })] }), _jsxs("div", { className: "flex items-center gap-1.5", children: [_jsx(Phone, { className: "h-3 w-3 shrink-0" }), _jsx("span", { children: empresa.telefono })] })] })] }) }, empresa.id))) }) })] }));
+}
